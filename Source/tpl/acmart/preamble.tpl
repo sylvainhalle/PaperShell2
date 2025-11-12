@@ -12,6 +12,9 @@
 \usepackage{graphicx}        % Import graphics
 \usepackage{comment}         % To comment out blocks of text
 \usepackage{flushend}        % To balance columns on last page
+\usepackage{microtype}       % Better typesetting
+
+\input{includes.tex}
 
 \begin{document}
 
@@ -19,6 +22,9 @@
 \title{%
 {{ title or "" }}%
 }
+
+% Default path for graphicspath
+\graphicspath{fig/}
 
 \begin{abstract}
 \input{abstract.tex}

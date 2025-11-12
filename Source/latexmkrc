@@ -1,0 +1,9 @@
+# Set main file
+@default_files = ('paper.tex');
+
+# Compile with lualatex
+$pdflatex = 'lualatex %O %S';
+
+# Let TeX and BibTeX search the whole styles/ tree
+$ENV{'TEXINPUTS'} = './sty//:' . ($ENV{'TEXINPUTS'} // '');
+$ENV{'BSTINPUTS'} = './sty//:' . ($ENV{'BSTINPUTS'} // '');

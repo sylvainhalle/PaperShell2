@@ -1,4 +1,8 @@
 *~
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
 *.tmp
 *.temp
 *.bak
