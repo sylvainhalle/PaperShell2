@@ -57,12 +57,11 @@ function M.generate(kv_raw)
   local pst_tpl = slurp("tpl/"..pub.."/postamble.tpl")
 
   local pre_tpl_f = template.compile(pre_tpl)
-  pre_tpl_f(ctx, function(s) spit("gen/preamble.int.tex", s) end)
-  --spit("gen/preamble.inc.tex", pre_tpl_f(ctx))
+  template.print(pre_tpl_f, {}, function(s) spit("gen/preamble.inc.tex", s) end)
   local mid_tpl_f = template.compile(mid_tpl)
-  --spit("gen/midamble.inc.tex", mid_tpl_f(ctx))
+  template.print(mid_tpl_f, {}, function(s) spit("gen/midamble.inc.tex", s) end)
   local pst_tpl_f = template.compile(pst_tpl)
-  --spit("gen/postamble.inc.tex", pst_tpl_f(ctx))
+  template.print(pst_tpl_f, {}, function(s) spit("gen/postamble.inc.tex", s) end)
 end
 
 return M

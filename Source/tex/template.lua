@@ -19,11 +19,10 @@ function template.print(data, args, callback)
       setmetatable(env, { __index = _G })
       if _ENV then -- Lua 5.2+
         local wrapper, err = load([[
-          return function(_ENV, exec)
-            local f = ...
-            f(exec)
-          end
-        ]], "wrapper", "t", env)
+  return function(_ENV, exec, f)
+    f(exec)
+  end
+     ]], "wrapper", "t", env)
         if not wrapper then
           error(err)
         end

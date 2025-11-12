@@ -1,1 +1,1 @@
-\bibliographystyle{<% bibstyle or "" %>}
+\bibliographystyle{foo}
