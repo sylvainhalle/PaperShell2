@@ -1,0 +1,23 @@
+\RequirePackage{iftex}
+\ifLuaTeX\else\errmessage{Run once with LuaLaTeX to generate}\fi
+\input{tex/papershell.tex}
+
+\papershellsetup{
+  publisher ={acmart},
+  title     = {My Paper},
+  authors   = {Alice and Bob}, 
+  year      = {2025},
+  options   = {
+     twocolumn = true,
+     times     = true,
+     natbib    = true
+  }
+}
+\papershellapply
+
+\input{gen/preamble.inc.tex}
+\begin{document}
+\maketitle
+Hello world
+\input{generated/bib.inc.tex}
+\end{document}

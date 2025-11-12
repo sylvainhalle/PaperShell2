@@ -1,0 +1,12 @@
+% tex/papershell.tex
+\ProvidesFile{papershell.tex}
+\newcommand\papershellsetup[1]{%
+  \gdef\ps@kv{#1}% raw key–value string passed to Lua
+}
+\newcommand\papershellapply{%
+  \directlua{
+    local ps = require("tex/papershell")
+    ps.generate([[\ps@kv]])
+  }%
+  %\input{gen/preamble.inc.tex}% produced by Lua
+}

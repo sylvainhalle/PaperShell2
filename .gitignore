@@ -1,0 +1,8 @@
+*~
+*.tmp
+*.temp
+*.bak
+Source/#paper.tex#
+Source/gen
+git-history.txt
+Export/
