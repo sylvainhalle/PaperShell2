@@ -42,7 +42,8 @@ function template.parse(data, minify)
   local str = 
     "return function(_)" .. 
       "function __(...)" ..
-        "_(require('template').escape(...))" ..
+      --"template.escape(...)" ..
+        "_(require('tex/template').escape(...))" ..
       "end " ..
       "_[=[" ..
       data:

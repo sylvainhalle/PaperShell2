@@ -1,5 +1,5 @@
 -- lua/papershell.lua
-local template = require("tex/template")   -- vendored engine
+local template = require("tex/template_engine4")   -- vendored engine
 local lfs = require("lfs")
 
 local M = {}
@@ -52,16 +52,12 @@ function M.generate(kv_raw)
   }
 
   -- Render using publisher-specific templates that contain all the logic
-  local pre_tpl = slurp("tpl/"..pub.."/preamble.tpl")
-  local mid_tpl = slurp("tpl/"..pub.."/midamble.tpl")
-  local pst_tpl = slurp("tpl/"..pub.."/postamble.tpl")
-
-  local pre_tpl_f = template.compile(pre_tpl)
-  template.print(pre_tpl_f, {}, function(s) spit("gen/preamble.inc.tex", s) end)
-  local mid_tpl_f = template.compile(mid_tpl)
-  template.print(mid_tpl_f, {}, function(s) spit("gen/midamble.inc.tex", s) end)
-  local pst_tpl_f = template.compile(pst_tpl)
-  template.print(pst_tpl_f, {}, function(s) spit("gen/postamble.inc.tex", s) end)
+  local pre_tpl_f = template.compile_file("tpl/"..pub.."/preamble.tpl", ctx)
+  spit("gen/preamble.inc.tex", pre_tpl_f)
+  local mid_tpl_f = template.compile_file("tpl/"..pub.."/midamble.tpl", ctx)
+  spit("gen/midamble.inc.tex", pre_tpl_f)
+  --local pst_tpl_f = template.compile(pst_tpl)
+  --template.print(pst_tpl_f, ctx, function(s) spit("gen/postamble.inc.tex", s) end)
 end
 
 return M
