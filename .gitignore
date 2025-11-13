@@ -8,6 +8,7 @@
 *.bak
 \#*
 Source/#paper.tex#
+Source/paper.pdf
 Source/gen
 git-history.txt
 Export/

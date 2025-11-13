@@ -18,15 +18,44 @@
 \usepackage[bookmarks=false]{hyperref} % Better handling of references in PDFs
 
 % Title
-\title\{%
-\{\{ title }}%
-\}
+\title{<%= title %>%
+}
 
-% Authors and affiliations
+
 \author{%
-\IEEEauthorblockN\{%
-{% local a = 0 %}
-}}
+<%
+local authors      = authors      or {}
+local institutions = institutions or {}
+
+-- Group author names by institution index
+local grouped = {}
+for _, a in ipairs(authors) do
+  local inst_idx = a.institution  -- should be 1, 2, ...
+  if inst_idx ~= nil then
+    local g = grouped[inst_idx]
+    if not g then
+      g = {}
+      grouped[inst_idx] = g
+    end
+    table.insert(g, a.name)
+  end
+end
+
+-- Now print one block per institution, in order
+for inst_idx, inst in ipairs(institutions) do
+  local names = grouped[inst_idx]
+  if names and #names > 0 then
+    local name_str = table.concat(names, ", ")
+%>
+\IEEEauthorblockN{<%= name_str %>}
+\IEEEauthorblockA{<%= inst.name %>}
+
+
+<%
+  end
+end
+%>
+}
 
 
 \input{includes.tex}
@@ -36,6 +65,11 @@
 \graphicspath{fig/}
 
 \begin{document}
+
+% Authors and affiliations
+<% for i, a in ipairs(authors) do
+  texio.write_nl("Author " .. i .. ": " .. (a.name or "?"))
+end %>
 
 \maketitle
 
@@ -48,3 +82,4 @@
 \makeatletter
 \let\l@ENGLISH\l@english
 \makeatother
+% :mode=text:
