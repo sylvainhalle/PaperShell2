@@ -6,6 +6,7 @@
 \newcommand\papershellapply{%
   \directlua{
     local ps = require("tex/papershell")
-    ps.generate([[\ps@kv]])
+    local e = ps.generate([[\ps@kv]])
+    print(e or "OK")
   }%
 }
