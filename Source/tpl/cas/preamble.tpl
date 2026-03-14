@@ -19,7 +19,7 @@
 \input{includes.tex}
 
 % Default path for graphicspath
-\graphicspath{fig/}
+\graphicspath{{fig/}}
 
 \usepackage{etoolbox}
 
@@ -27,7 +27,7 @@
 \newread\CAS@absin
 \newwrite\CAS@absout
 
-\newcommand{\CASCopyFile}[2]\{%
+\newcommand{\CASCopyFile}[2]{%
   \begingroup
     \openin\CAS@absin=#1\relax
     \immediate\openout\CAS@absout=#2\relax
@@ -40,7 +40,7 @@
   \endgroup
 }
 
-\newcommand{\setexternalabstract}[1]\{%
+\newcommand{\setexternalabstract}[1]{%
   \pretocmd{\maketitle}{\CASCopyFile{#1}{\jobname.abs}}{}{}%
 }
 
@@ -56,23 +56,37 @@
 \def\textpagefraction{.001}
 
 % Short title
-\shorttitle\{%
-{{ title or "" }}%
+\shorttitle{%
+<< title or "" >>%
 }
 
 % Short author
-\shortauthors\{%
+\shortauthors{%
 }
-
-{% _out("FOO") %}
 
 % Authors and affiliations
-\author\{%
+<% for i,a in util.spairs(authors) do %>
+\author[<<i>>]{%
+<< a.name >>%
+}[<% if a.orcid then %> orcid=<<a.orcid>> <% end %>]
+<% if a.corresponding then %>
+\cormark[<<i>>]
+<% end %>
+\fnmark{<<a.affiliation>>}
+\ead{<<a.email>>}
+<% end %>
+
+<% for i,a in util.spairs(institutions) do %>
+\affiliation[<<i>>]{
+  organization={<<a.name>>},
+  city={<<a.city>>},
+  country={<<a.country>>}
 }
+<% end %>
 
 % Main title of the paper
-\title [ mode = title ]\{%
-{{ title or "" }}%
+\title [ mode = title ]{%
+<< title or "" >>%
 }
 
 \begin{abstract}
@@ -83,7 +97,9 @@
 \end{highlights}
 
 \begin{keywords}
-{{ keywords:gsub(", ", " \\sep ") or "" }}%
+<< keywords:gsub(", ", " \\sep ") or "" >>%
 \end{keywords}
 
 \maketitle
+
+%:mode=latex:

@@ -3,6 +3,4 @@
 %% https://github.com/sylvainhalle/PaperShell
 %% DO NOT EDIT!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{appendices.tex}
-
-\end{document}
+\bibliographystyle{splncs04}

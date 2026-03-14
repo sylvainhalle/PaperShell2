@@ -89,7 +89,6 @@ local function parse_kv(s)
   return t
 end
 
-
 function M.generate(kv_raw)
   ensure_outdir()
   local kv = parse_kv(kv_raw)

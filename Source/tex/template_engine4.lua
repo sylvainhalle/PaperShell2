@@ -172,7 +172,7 @@ local END_MODIFIER = {
   ["#"] = "#",
   ["="] = "=",
   ["%"] = "%",
-  ["{"] = "}",
+  ["<"] = ">",
 }
 
 local MODIFIER_FUNC = {
@@ -188,7 +188,7 @@ local MODIFIER_FUNC = {
     return code
   end,
 
-  ["{"] = function(code)
+  ["<"] = function(code)
     local e
     local escape = nil
 
@@ -294,6 +294,21 @@ function M.compile(tmpl, env)
     difftime = os.difftime,
     time     = os.time,
   }
+  env["util"] = {
+  	  spairs = function (t, f)
+        local a = {}
+        for n in pairs(t) do table.insert(a, n) end
+        table.sort(a, f)
+        local i = 0      -- iterator variable
+        local iter = function ()   -- iterator function
+          i = i + 1
+          if a[i] == nil then return nil
+          else return a[i], t[a[i]]
+          end
+        end
+        return iter
+      end
+  }
 
   builder[#builder+1] = "_global_escape = 'raw'"
   builder[#builder+1] = url_encode
@@ -302,7 +317,7 @@ function M.compile(tmpl, env)
   builder[#builder+1] = do_escape
 
   while pos <= #tmpl do
-    b = tmpl:find("{", pos, true)
+    b = tmpl:find("<", pos, true)
     if not b then
       break
     end
@@ -311,7 +326,7 @@ function M.compile(tmpl, env)
 
     if b > 1 and tmpl:sub(b - 1, b - 1) == "\\" then
       appender(builder, tmpl:sub(pos, b - 2))
-      appender(builder, "{")
+      appender(builder, "<")
       pos = b + 1
 
     elseif not END_MODIFIER[modifier] then
@@ -320,7 +335,7 @@ function M.compile(tmpl, env)
 
     else
       local end_modifier = END_MODIFIER[modifier]
-      local close = end_modifier .. "}"
+      local close = end_modifier .. ">"
 
       appender(builder, tmpl:sub(pos, b - 1))
 
@@ -330,7 +345,7 @@ function M.compile(tmpl, env)
         run_block(builder, tmpl:sub(b, close_pos + 1))
         pos = close_pos + 2
       else
-        appender(builder, "{")
+        appender(builder, "<")
         pos = b + 1
       end
     end
